@@ -1,0 +1,53 @@
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.suo
+*.user
+*.VC.db
+*.VC.VC.opendb
+
+# =========================
+# Carpetas de compilación
+# =========================
+x64/
+x86/
+Debug/
+Release/
+Debug*/
+Release*/
+
+# =========================
+# Archivos de build
+# =========================
+*.obj
+*.exe
+*.dll
+*.pdb
+*.idb
+*.ilk
+
+# =========================
+# Archivos temporales
+# =========================
+*.log
+*.tlog
+*.lastbuildstate
+
+# =========================
+# Archivos del sistema
+# =========================
+Thumbs.db
+.DS_Store
+
+# =========================
+# Carpetas generadas por VS
+# =========================
+SistemaUsuarios/
+
+# =========================
+# Opcional: backups o autosaves
+# =========================
+*.bak

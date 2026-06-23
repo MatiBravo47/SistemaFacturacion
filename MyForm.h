@@ -1,9 +1,10 @@
 #pragma once
-#include "FormInicio.h"
+#include "DBHelper.h"
 #include "FormAdmin.h"
-#include "FormGerente.h"
+#include "FormDeposito.h"
 #include "FormCajero.h"
 #include "Usuario.h"
+#include "UsuarioDAO.h"
 
 namespace SistemaUsuarios {
 
@@ -21,31 +22,10 @@ namespace SistemaUsuarios {
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
-	private:
-		List<Usuario^>^ usuarios;
 	public:
 		MyForm(void)
 		{
 			InitializeComponent();
-			usuarios = gcnew List<Usuario^>();
-
-			usuarios->Add(
-				gcnew Usuario(
-					"matias",
-					"1111",
-					"Admin"));
-
-			usuarios->Add(
-				gcnew Usuario(
-					"gerente",
-					"2222",
-					"Gerente"));
-
-			usuarios->Add(
-				gcnew Usuario(
-					"cajero",
-					"3333",
-					"Cajero"));
 		}
 
 	protected:
@@ -92,7 +72,7 @@ namespace SistemaUsuarios {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(63, 62);
+			this->label1->Location = System::Drawing::Point(112, 71);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(32, 13);
 			this->label1->TabIndex = 0;
@@ -101,7 +81,7 @@ namespace SistemaUsuarios {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(66, 127);
+			this->label2->Location = System::Drawing::Point(112, 125);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(61, 13);
 			this->label2->TabIndex = 1;
@@ -110,22 +90,22 @@ namespace SistemaUsuarios {
 			// 
 			// txtEmail
 			// 
-			this->txtEmail->Location = System::Drawing::Point(66, 90);
+			this->txtEmail->Location = System::Drawing::Point(115, 87);
 			this->txtEmail->Name = L"txtEmail";
-			this->txtEmail->Size = System::Drawing::Size(100, 20);
+			this->txtEmail->Size = System::Drawing::Size(186, 20);
 			this->txtEmail->TabIndex = 2;
 			this->txtEmail->TextChanged += gcnew System::EventHandler(this, &MyForm::txtEmail_TextChanged);
 			// 
 			// txtPassword
 			// 
-			this->txtPassword->Location = System::Drawing::Point(66, 154);
+			this->txtPassword->Location = System::Drawing::Point(115, 141);
 			this->txtPassword->Name = L"txtPassword";
-			this->txtPassword->Size = System::Drawing::Size(100, 20);
+			this->txtPassword->Size = System::Drawing::Size(186, 20);
 			this->txtPassword->TabIndex = 3;
 			// 
 			// btnIngresar
 			// 
-			this->btnIngresar->Location = System::Drawing::Point(81, 180);
+			this->btnIngresar->Location = System::Drawing::Point(170, 178);
 			this->btnIngresar->Name = L"btnIngresar";
 			this->btnIngresar->Size = System::Drawing::Size(75, 23);
 			this->btnIngresar->TabIndex = 4;
@@ -135,7 +115,7 @@ namespace SistemaUsuarios {
 			// 
 			// btnProbarConexion
 			// 
-			this->btnProbarConexion->Location = System::Drawing::Point(69, 220);
+			this->btnProbarConexion->Location = System::Drawing::Point(170, 241);
 			this->btnProbarConexion->Name = L"btnProbarConexion";
 			this->btnProbarConexion->Size = System::Drawing::Size(75, 23);
 			this->btnProbarConexion->TabIndex = 5;
@@ -147,7 +127,7 @@ namespace SistemaUsuarios {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 261);
+			this->ClientSize = System::Drawing::Size(408, 309);
 			this->Controls->Add(this->btnProbarConexion);
 			this->Controls->Add(this->btnIngresar);
 			this->Controls->Add(this->txtPassword);
@@ -162,83 +142,44 @@ namespace SistemaUsuarios {
 
 		}
 #pragma endregion
-	private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
-private: System::Void btnIngresar_Click(
-	System::Object^ sender,
-	System::EventArgs^ e)
-{
-	String^ email = txtEmail->Text;
-	String^ password = txtPassword->Text;
-
-	try
+	private: System::Void label2_Click(
+		System::Object^ sender,
+		System::EventArgs^ e) 
 	{
-		String^ connectionString =
-			"Server=MATIASNOTEBOOK\\SQLEXPRESS;"
-			"Database=SistemaFacturacion;"
-			"Trusted_Connection=True;"
-			"TrustServerCertificate=True;";
+	}
 
-		SqlConnection^ conexion =
-			gcnew SqlConnection(connectionString);
+	private: System::Void btnIngresar_Click(
+		System::Object^ sender,
+		System::EventArgs^ e)
+	{
+		String^ email = txtEmail->Text;
+		String^ password = txtPassword->Text;
 
-		conexion->Open();
+		UsuarioDAO^ usuarioDAO = gcnew UsuarioDAO();
 
-		String^ consulta =
-			"SELECT Rol, Nombre "
-			"FROM Usuarios "
-			"WHERE Email = @Email "
-			"AND Password = @Password "
-			"AND Activo = 1";
+		Usuario^ usuario = usuarioDAO->Login(email, password);
 
-		SqlCommand^ comando =
-			gcnew SqlCommand(consulta, conexion);
-
-		comando->Parameters->AddWithValue(
-			"@Email",
-			email);
-
-		comando->Parameters->AddWithValue(
-			"@Password",
-			password);
-
-		SqlDataReader^ lector =
-			comando->ExecuteReader();
-
-		if (lector->Read())
+		if (usuario != nullptr)
 		{
-			String^ rol = lector["Rol"]->ToString();
-			String^ nombre =
-				lector["Nombre"]->ToString();
-
 			MessageBox::Show(
-				"Bienvenido " + nombre);
+				"Bienvenido " + usuario->GetNombre());
 
-			if (rol == "Admin")
+			if (usuario->GetRol() == "Admin")
 			{
-				FormAdmin^ admin =
-					gcnew FormAdmin();
-
+				FormAdmin^ admin = gcnew FormAdmin();
 				admin->Show();
-
 				this->Hide();
 			}
-			else if (rol == "Gerente")
+			else if (usuario->GetRol() == "Deposito")
 			{
-				FormGerente^ gerente =
-					gcnew FormGerente();
-
-				gerente->Show();
-
+				FormDeposito^ deposito = gcnew FormDeposito();
+				deposito->Show();
 				this->Hide();
 			}
-			else if (rol == "Cajero")
+			else if (usuario->GetRol() == "Cajero")
 			{
-				FormCajero^ cajero =
-					gcnew FormCajero();
-
+				FormCajero^ cajero = gcnew FormCajero();
 				cajero->Show();
-
 				this->Hide();
 			}
 		}
@@ -250,47 +191,33 @@ private: System::Void btnIngresar_Click(
 				MessageBoxButtons::OK,
 				MessageBoxIcon::Error);
 		}
-
-		lector->Close();
-		conexion->Close();
 	}
-	catch (Exception^ ex)
-	{
-		MessageBox::Show(
-			ex->Message,
-			"Error de Base de Datos");
-	}
-}
-private: System::Void btnProbarConexion_Click(
+	private: System::Void btnProbarConexion_Click(
 	System::Object^ sender,
 	System::EventArgs^ e)
-{
-	try
 	{
-		String^ connectionString =
-			"Server=MATIASNOTEBOOK\\SQLEXPRESS;"
-			"Database=SistemaFacturacion;"
-			"Trusted_Connection=True;"
-			"TrustServerCertificate=True;";
+		try
+		{
+			String^ connectionString = DBHelper::ConnectionString;
 
-		SqlConnection^ conexion =
-			gcnew SqlConnection(connectionString);
+			SqlConnection^ conexion =
+				gcnew SqlConnection(connectionString);
 
-		conexion->Open();
+			conexion->Open();
 
-		MessageBox::Show(
-			"Conexión exitosa con SQL Server"
-		);
+			MessageBox::Show(
+				"Conexión exitosa con SQL Server"
+			);
 
-		conexion->Close();
-	}
-	catch (Exception^ ex)
-	{
-		MessageBox::Show(
-			ex->Message,
-			"Error"
-		);
-	}
+			conexion->Close();
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(
+				ex->Message,
+				"Error"
+			);
+		}
 }
 private: System::Void txtEmail_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }

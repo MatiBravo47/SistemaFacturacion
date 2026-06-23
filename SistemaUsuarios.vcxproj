@@ -120,28 +120,30 @@
   <ItemGroup>
     <ClCompile Include="FormAdmin.cpp" />
     <ClCompile Include="FormCajero.cpp" />
-    <ClCompile Include="FormGerente.cpp" />
+    <ClCompile Include="FormDeposito.cpp" />
     <ClCompile Include="FormInicio.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DBHelper.h" />
     <ClInclude Include="FormAdmin.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="FormCajero.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="FormGerente.h">
+    <ClInclude Include="FormDeposito.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="FormInicio.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
+    <ClInclude Include="FormUsuarios.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Producto.h" />
+    <ClInclude Include="ProductoDao.h" />
     <ClInclude Include="Usuario.h" />
+    <ClInclude Include="UsuarioDAO.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormAdmin.resx">
@@ -150,11 +152,8 @@
     <EmbeddedResource Include="FormCajero.resx">
       <DependentUpon>FormCajero.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormGerente.resx">
-      <DependentUpon>FormGerente.h</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormInicio.resx">
-      <DependentUpon>FormInicio.h</DependentUpon>
+    <EmbeddedResource Include="FormDeposito.resx">
+      <DependentUpon>FormDeposito.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>

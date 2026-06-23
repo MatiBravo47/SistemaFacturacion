@@ -12,10 +12,10 @@ namespace SistemaUsuarios {
 	/// <summary>
 	/// Resumen de FormGerente
 	/// </summary>
-	public ref class FormGerente : public System::Windows::Forms::Form
+	public ref class FormDeposito : public System::Windows::Forms::Form
 	{
 	public:
-		FormGerente(void)
+		FormDeposito(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace SistemaUsuarios {
 		/// <summary>
 		/// Limpiar los recursos que se estén usando.
 		/// </summary>
-		~FormGerente()
+		~FormDeposito()
 		{
 			if (components)
 			{
@@ -60,9 +60,10 @@ namespace SistemaUsuarios {
 			this->label1->AutoSize = true;
 			this->label1->Location = System::Drawing::Point(94, 88);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(99, 13);
+			this->label1->Size = System::Drawing::Size(103, 13);
 			this->label1->TabIndex = 0;
-			this->label1->Text = L"Bienvenido gerente";
+			this->label1->Text = L"Bienvenido deposito";
+			this->label1->Click += gcnew System::EventHandler(this, &FormDeposito::label1_Click);
 			// 
 			// button1
 			// 
@@ -72,27 +73,29 @@ namespace SistemaUsuarios {
 			this->button1->TabIndex = 1;
 			this->button1->Text = L"Cerrar sesion";
 			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &FormGerente::button1_Click);
+			this->button1->Click += gcnew System::EventHandler(this, &FormDeposito::button1_Click);
 			// 
-			// FormGerente
+			// FormDeposito
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(284, 261);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
-			this->Name = L"FormGerente";
+			this->Name = L"FormDeposito";
 			this->Text = L"Panel de Gerencia";
-			this->Load += gcnew System::EventHandler(this, &FormGerente::FormGerente_Load);
+			this->Load += gcnew System::EventHandler(this, &FormDeposito::FormDeposito_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void FormGerente_Load(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void FormDeposito_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Close();
+	}
+	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	};
 }

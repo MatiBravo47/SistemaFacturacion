@@ -127,6 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBHelper.h" />
+    <ClInclude Include="DetalleFacturaDAO.h" />
+    <ClInclude Include="FacturaDAO.h" />
     <ClInclude Include="FormAdmin.h">
       <FileType>CppForm</FileType>
     </ClInclude>

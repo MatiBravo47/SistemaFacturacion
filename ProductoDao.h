@@ -215,5 +215,38 @@ namespace SistemaUsuarios
                     ex->Message);
             }
         }
+
+        void DescontarStock(
+            int idProducto,
+            int cantidad)
+        {
+            SqlConnection^ conexion =
+                gcnew SqlConnection(
+                    DBHelper::ConnectionString);
+
+            conexion->Open();
+
+            String^ consulta =
+                "UPDATE Productos "
+                "SET Stock = Stock - @Cantidad "
+                "WHERE IdProducto = @IdProducto";
+
+            SqlCommand^ comando =
+                gcnew SqlCommand(
+                    consulta,
+                    conexion);
+
+            comando->Parameters->AddWithValue(
+                "@Cantidad",
+                cantidad);
+
+            comando->Parameters->AddWithValue(
+                "@IdProducto",
+                idProducto);
+
+            comando->ExecuteNonQuery();
+
+            conexion->Close();
+        }
     };
 }

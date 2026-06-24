@@ -1,5 +1,4 @@
 ﻿#pragma once
-#pragma once
 #include "DBHelper.h"
 
 namespace SistemaUsuarios {
@@ -21,6 +20,7 @@ namespace SistemaUsuarios {
         Button^ btnAgregar;
         Button^ btnModificar;
         Button^ btnDesactivar;
+        Button^ btnActivar;
         Button^ btnLimpiar;
         Label^ lblNombre;
         Label^ lblEmail;
@@ -146,6 +146,16 @@ namespace SistemaUsuarios {
             btnLimpiar->Click += gcnew EventHandler(
                 this, &FormUsuarios::btnLimpiar_Click);
 
+            btnActivar = gcnew Button();
+            btnActivar->Text = L"Activar";
+            btnActivar->Location = System::Drawing::Point(620, 360);
+            btnActivar->Size = System::Drawing::Size(110, 30);
+            btnActivar->BackColor = Color::FromArgb(25, 135, 84);
+            btnActivar->ForeColor = Color::White;
+            btnActivar->Click += gcnew EventHandler(
+                this,
+                &FormUsuarios::btnActivar_Click);
+
             // -- Agregar controles --
             this->Controls->Add(lblTitulo);
             this->Controls->Add(dgvUsuarios);
@@ -161,6 +171,7 @@ namespace SistemaUsuarios {
             this->Controls->Add(btnModificar);
             this->Controls->Add(btnDesactivar);
             this->Controls->Add(btnLimpiar);
+            this->Controls->Add(btnActivar);
         }
 
         // ── Cargar grilla ──────────────────────────────────────────
@@ -318,6 +329,60 @@ namespace SistemaUsuarios {
             catch (Exception^ ex)
             {
                 MessageBox::Show(ex->Message, "Error al desactivar");
+            }
+        }
+
+        void btnActivar_Click(
+            Object^ sender,
+            EventArgs^ e)
+        {
+            if (idSeleccionado == -1)
+            {
+                MessageBox::Show(
+                    "Seleccioná un usuario.",
+                    "Aviso");
+                return;
+            }
+
+            try
+            {
+                SqlConnection^ con =
+                    gcnew SqlConnection(
+                        DBHelper::ConnectionString);
+
+                con->Open();
+
+                String^ sql =
+                    "UPDATE Usuarios "
+                    "SET Activo = 1 "
+                    "WHERE IdUsuario = @Id";
+
+                SqlCommand^ cmd =
+                    gcnew SqlCommand(
+                        sql,
+                        con);
+
+                cmd->Parameters->AddWithValue(
+                    "@Id",
+                    idSeleccionado);
+
+                cmd->ExecuteNonQuery();
+
+                con->Close();
+
+                MessageBox::Show(
+                    "Usuario activado correctamente.",
+                    "Éxito");
+
+                Limpiar();
+
+                CargarUsuarios();
+            }
+            catch (Exception^ ex)
+            {
+                MessageBox::Show(
+                    ex->Message,
+                    "Error");
             }
         }
 

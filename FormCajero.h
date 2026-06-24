@@ -1,5 +1,7 @@
 #pragma once
 #include "ProductoDAO.h"
+#include "FacturaDAO.h"
+#include "DetalleFacturaDAO.h"
 
 namespace SistemaUsuarios {
 
@@ -74,6 +76,8 @@ namespace SistemaUsuarios {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colCantidad;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colDetallePrecio;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colDetalleSubtotal;
+	private: System::Windows::Forms::Label^ lblProducto;
+	private: System::Windows::Forms::Label^ lblProductosSeleccionados;
 
 
 
@@ -98,7 +102,7 @@ namespace SistemaUsuarios {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Label^ label1;
+
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::DataGridView^ dgvProductos;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colId;
@@ -130,7 +134,6 @@ namespace SistemaUsuarios {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->dgvProductos = (gcnew System::Windows::Forms::DataGridView());
 			this->colId = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -142,29 +145,22 @@ namespace SistemaUsuarios {
 			this->txtCantidad = (gcnew System::Windows::Forms::TextBox());
 			this->btnAgregarVenta = (gcnew System::Windows::Forms::Button());
 			this->dgvDetalleVenta = (gcnew System::Windows::Forms::DataGridView());
-			this->lblTotal = (gcnew System::Windows::Forms::Label());
-			this->btnConfirmarVenta = (gcnew System::Windows::Forms::Button());
 			this->colIdProducto = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->colProducto = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->colCantidad = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->colDetallePrecio = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->colDetalleSubtotal = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->lblTotal = (gcnew System::Windows::Forms::Label());
+			this->btnConfirmarVenta = (gcnew System::Windows::Forms::Button());
+			this->lblProducto = (gcnew System::Windows::Forms::Label());
+			this->lblProductosSeleccionados = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProductos))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvDetalleVenta))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(12, 9);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(92, 13);
-			this->label1->TabIndex = 0;
-			this->label1->Text = L"Bienvenido cajero";
-			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(366, 583);
+			this->button1->Location = System::Drawing::Point(12, 520);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(100, 23);
 			this->button1->TabIndex = 1;
@@ -184,7 +180,7 @@ namespace SistemaUsuarios {
 			this->dgvProductos->Location = System::Drawing::Point(15, 40);
 			this->dgvProductos->Name = L"dgvProductos";
 			this->dgvProductos->ReadOnly = true;
-			this->dgvProductos->Size = System::Drawing::Size(554, 150);
+			this->dgvProductos->Size = System::Drawing::Size(544, 150);
 			this->dgvProductos->TabIndex = 2;
 			this->dgvProductos->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &FormCajero::dgvProductos_CellClick);
 			// 
@@ -253,30 +249,12 @@ namespace SistemaUsuarios {
 				this->colIdProducto,
 					this->colProducto, this->colCantidad, this->colDetallePrecio, this->colDetalleSubtotal
 			});
-			this->dgvDetalleVenta->Location = System::Drawing::Point(15, 296);
+			this->dgvDetalleVenta->Location = System::Drawing::Point(12, 290);
 			this->dgvDetalleVenta->Name = L"dgvDetalleVenta";
 			this->dgvDetalleVenta->ReadOnly = true;
 			this->dgvDetalleVenta->Size = System::Drawing::Size(554, 150);
 			this->dgvDetalleVenta->TabIndex = 6;
 			this->dgvDetalleVenta->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &FormCajero::dgvDetalleVenta_CellContentClick);
-			// 
-			// lblTotal
-			// 
-			this->lblTotal->AutoSize = true;
-			this->lblTotal->Location = System::Drawing::Point(18, 475);
-			this->lblTotal->Name = L"lblTotal";
-			this->lblTotal->Size = System::Drawing::Size(49, 13);
-			this->lblTotal->TabIndex = 7;
-			this->lblTotal->Text = L"Total: $0";
-			// 
-			// btnConfirmarVenta
-			// 
-			this->btnConfirmarVenta->Location = System::Drawing::Point(18, 514);
-			this->btnConfirmarVenta->Name = L"btnConfirmarVenta";
-			this->btnConfirmarVenta->Size = System::Drawing::Size(112, 23);
-			this->btnConfirmarVenta->TabIndex = 8;
-			this->btnConfirmarVenta->Text = L"Confirmar venta";
-			this->btnConfirmarVenta->UseVisualStyleBackColor = true;
 			// 
 			// colIdProducto
 			// 
@@ -309,11 +287,52 @@ namespace SistemaUsuarios {
 			this->colDetalleSubtotal->Name = L"colDetalleSubtotal";
 			this->colDetalleSubtotal->ReadOnly = true;
 			// 
+			// lblTotal
+			// 
+			this->lblTotal->AutoSize = true;
+			this->lblTotal->Location = System::Drawing::Point(9, 455);
+			this->lblTotal->Name = L"lblTotal";
+			this->lblTotal->Size = System::Drawing::Size(49, 13);
+			this->lblTotal->TabIndex = 7;
+			this->lblTotal->Text = L"Total: $0";
+			// 
+			// btnConfirmarVenta
+			// 
+			this->btnConfirmarVenta->Location = System::Drawing::Point(12, 480);
+			this->btnConfirmarVenta->Name = L"btnConfirmarVenta";
+			this->btnConfirmarVenta->Size = System::Drawing::Size(100, 23);
+			this->btnConfirmarVenta->TabIndex = 8;
+			this->btnConfirmarVenta->Text = L"Confirmar venta";
+			this->btnConfirmarVenta->UseVisualStyleBackColor = true;
+			this->btnConfirmarVenta->Click += gcnew System::EventHandler(this, &FormCajero::btnConfirmarVenta_Click);
+			// 
+			// lblProducto
+			// 
+			this->lblProducto->AutoSize = true;
+			this->lblProducto->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13));
+			this->lblProducto->Location = System::Drawing::Point(15, 13);
+			this->lblProducto->Name = L"lblProducto";
+			this->lblProducto->Size = System::Drawing::Size(91, 22);
+			this->lblProducto->TabIndex = 9;
+			this->lblProducto->Text = L"Productos";
+			// 
+			// lblProductosSeleccionados
+			// 
+			this->lblProductosSeleccionados->AutoSize = true;
+			this->lblProductosSeleccionados->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
+			this->lblProductosSeleccionados->Location = System::Drawing::Point(11, 267);
+			this->lblProductosSeleccionados->Name = L"lblProductosSeleccionados";
+			this->lblProductosSeleccionados->Size = System::Drawing::Size(186, 20);
+			this->lblProductosSeleccionados->TabIndex = 10;
+			this->lblProductosSeleccionados->Text = L"Productos seleccionados";
+			// 
 			// FormCajero
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(793, 632);
+			this->ClientSize = System::Drawing::Size(570, 565);
+			this->Controls->Add(this->lblProductosSeleccionados);
+			this->Controls->Add(this->lblProducto);
 			this->Controls->Add(this->btnConfirmarVenta);
 			this->Controls->Add(this->lblTotal);
 			this->Controls->Add(this->dgvDetalleVenta);
@@ -322,7 +341,6 @@ namespace SistemaUsuarios {
 			this->Controls->Add(this->lblCantidad);
 			this->Controls->Add(this->dgvProductos);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->label1);
 			this->Name = L"FormCajero";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Panel de Caja";
@@ -393,6 +411,91 @@ private: System::Void btnAgregarVenta_Click(
 	CalcularTotal();
 }
 private: System::Void dgvDetalleVenta_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+}
+private: System::Void btnConfirmarVenta_Click(
+	System::Object^ sender,
+	System::EventArgs^ e)
+{
+	if (dgvDetalleVenta->Rows->Count == 0)
+	{
+		MessageBox::Show(
+			"No hay productos en la venta");
+
+		return;
+	}
+
+	try
+	{
+		double total = 0;
+
+		String^ textoTotal =
+			lblTotal->Text
+			->Replace("Total: $", "");
+
+		total =
+			Convert::ToDouble(textoTotal);
+
+		int idUsuario = 1;
+
+		FacturaDAO^ facturaDAO =
+			gcnew FacturaDAO();
+
+		int idFactura =
+			facturaDAO->CrearFactura(
+				total,
+				idUsuario);
+
+		DetalleFacturaDAO^ detalleDAO =
+			gcnew DetalleFacturaDAO();
+
+		ProductoDAO^ productoDAO =
+			gcnew ProductoDAO();
+
+		for each (DataGridViewRow ^ fila
+			in dgvDetalleVenta->Rows)
+		{
+			if (fila->Cells[0]->Value == nullptr)
+				continue;
+
+			int idProducto =
+				Convert::ToInt32(
+					fila->Cells[0]->Value);
+
+			int cantidad =
+				Convert::ToInt32(
+					fila->Cells[2]->Value);
+
+			double precio =
+				Convert::ToDouble(
+					fila->Cells[3]->Value);
+
+			detalleDAO->AgregarDetalle(
+				idFactura,
+				idProducto,
+				cantidad,
+				precio);
+
+			productoDAO->DescontarStock(
+				idProducto,
+				cantidad);
+		}
+
+		MessageBox::Show(
+			"Venta registrada correctamente");
+
+		dgvDetalleVenta->Rows->Clear();
+
+		lblTotal->Text =
+			"Total: $0";
+
+		CargarProductos();
+	}
+	catch (Exception^ ex)
+	{
+		MessageBox::Show(
+			ex->Message,
+			"Error");
+	}
 }
 };
 }

@@ -39,13 +39,15 @@ namespace SistemaUsuarios {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::Label^ lblEmail;
+	private: System::Windows::Forms::Label^ lblContraseña;
+	protected:
+
+
 	private: System::Windows::Forms::TextBox^ txtEmail;
 
 	private: System::Windows::Forms::TextBox^ txtPassword;
 	private: System::Windows::Forms::Button^ btnIngresar;
-	private: System::Windows::Forms::Button^ btnProbarConexion;
 	protected:
 
 	private:
@@ -61,32 +63,31 @@ namespace SistemaUsuarios {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->lblEmail = (gcnew System::Windows::Forms::Label());
+			this->lblContraseña = (gcnew System::Windows::Forms::Label());
 			this->txtEmail = (gcnew System::Windows::Forms::TextBox());
 			this->txtPassword = (gcnew System::Windows::Forms::TextBox());
 			this->btnIngresar = (gcnew System::Windows::Forms::Button());
-			this->btnProbarConexion = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
-			// label1
+			// lblEmail
 			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(112, 71);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(32, 13);
-			this->label1->TabIndex = 0;
-			this->label1->Text = L"Email";
+			this->lblEmail->AutoSize = true;
+			this->lblEmail->Location = System::Drawing::Point(112, 71);
+			this->lblEmail->Name = L"lblEmail";
+			this->lblEmail->Size = System::Drawing::Size(32, 13);
+			this->lblEmail->TabIndex = 0;
+			this->lblEmail->Text = L"Email";
 			// 
-			// label2
+			// lblContraseña
 			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(112, 125);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(61, 13);
-			this->label2->TabIndex = 1;
-			this->label2->Text = L"Contraseña";
-			this->label2->Click += gcnew System::EventHandler(this, &MyForm::label2_Click);
+			this->lblContraseña->AutoSize = true;
+			this->lblContraseña->Location = System::Drawing::Point(112, 125);
+			this->lblContraseña->Name = L"lblContraseña";
+			this->lblContraseña->Size = System::Drawing::Size(61, 13);
+			this->lblContraseña->TabIndex = 1;
+			this->lblContraseña->Text = L"Contraseña";
+			this->lblContraseña->Click += gcnew System::EventHandler(this, &MyForm::label2_Click);
 			// 
 			// txtEmail
 			// 
@@ -113,27 +114,16 @@ namespace SistemaUsuarios {
 			this->btnIngresar->UseVisualStyleBackColor = true;
 			this->btnIngresar->Click += gcnew System::EventHandler(this, &MyForm::btnIngresar_Click);
 			// 
-			// btnProbarConexion
-			// 
-			this->btnProbarConexion->Location = System::Drawing::Point(170, 241);
-			this->btnProbarConexion->Name = L"btnProbarConexion";
-			this->btnProbarConexion->Size = System::Drawing::Size(75, 23);
-			this->btnProbarConexion->TabIndex = 5;
-			this->btnProbarConexion->Text = L"Probar BD";
-			this->btnProbarConexion->UseVisualStyleBackColor = true;
-			this->btnProbarConexion->Click += gcnew System::EventHandler(this, &MyForm::btnProbarConexion_Click);
-			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(408, 309);
-			this->Controls->Add(this->btnProbarConexion);
 			this->Controls->Add(this->btnIngresar);
 			this->Controls->Add(this->txtPassword);
 			this->Controls->Add(this->txtEmail);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
+			this->Controls->Add(this->lblContraseña);
+			this->Controls->Add(this->lblEmail);
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Inicio de Sesión";
@@ -159,29 +149,35 @@ namespace SistemaUsuarios {
 
 		Usuario^ usuario = usuarioDAO->Login(email, password);
 
-		if (usuario != nullptr)
+		if (usuario->GetRol() == "Admin")
 		{
-			MessageBox::Show(
-				"Bienvenido " + usuario->GetNombre());
+			FormAdmin^ admin = gcnew FormAdmin();
 
-			if (usuario->GetRol() == "Admin")
-			{
-				FormAdmin^ admin = gcnew FormAdmin();
-				admin->Show();
-				this->Hide();
-			}
-			else if (usuario->GetRol() == "Deposito")
-			{
-				FormDeposito^ deposito = gcnew FormDeposito();
-				deposito->Show();
-				this->Hide();
-			}
-			else if (usuario->GetRol() == "Cajero")
-			{
-				FormCajero^ cajero = gcnew FormCajero();
-				cajero->Show();
-				this->Hide();
-			}
+			this->Hide();
+
+			admin->ShowDialog();
+
+			this->Show();
+		}
+		else if (usuario->GetRol() == "Deposito")
+		{
+			FormDeposito^ deposito = gcnew FormDeposito();
+
+			this->Hide();
+
+			deposito->ShowDialog();
+
+			this->Show();
+		}
+		else if (usuario->GetRol() == "Cajero")
+		{
+			FormCajero^ cajero = gcnew FormCajero();
+
+			this->Hide();
+
+			cajero->ShowDialog();
+
+			this->Show();
 		}
 		else
 		{
@@ -192,33 +188,6 @@ namespace SistemaUsuarios {
 				MessageBoxIcon::Error);
 		}
 	}
-	private: System::Void btnProbarConexion_Click(
-	System::Object^ sender,
-	System::EventArgs^ e)
-	{
-		try
-		{
-			String^ connectionString = DBHelper::ConnectionString;
-
-			SqlConnection^ conexion =
-				gcnew SqlConnection(connectionString);
-
-			conexion->Open();
-
-			MessageBox::Show(
-				"Conexión exitosa con SQL Server"
-			);
-
-			conexion->Close();
-		}
-		catch (Exception^ ex)
-		{
-			MessageBox::Show(
-				ex->Message,
-				"Error"
-			);
-		}
-}
 private: System::Void txtEmail_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 };

@@ -49,7 +49,7 @@ namespace SistemaUsuarios {
 	private: System::Windows::Forms::Button^ btnAgregar;
 	private: System::Windows::Forms::Button^ btnEliminar;
 	private: System::Windows::Forms::Button^ btnModificar;
-	private: System::Windows::Forms::Button^ btnCargarProductos;
+
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colId;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colNombre;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colPrecio;
@@ -59,6 +59,7 @@ namespace SistemaUsuarios {
 	private:
 		int idProductoSeleccionado = 0;
 	private: System::Windows::Forms::Label^ lblProductos;
+	private: System::Windows::Forms::Button^ btnNuevoProducto;
 
 	protected:
 
@@ -73,6 +74,62 @@ namespace SistemaUsuarios {
 		/// Método necesario para admitir el Diseñador. No se puede modificar
 		/// el contenido de este método con el editor de código.
 		/// </summary>
+		/// 
+		/// 
+		void ModoAgregar()
+		{
+			btnAgregar->Enabled = true;
+
+			btnModificar->Enabled = false;
+
+			btnEliminar->Enabled = false;
+		}
+
+
+		void ModoEditar()
+		{
+			btnAgregar->Enabled = false;
+
+			btnModificar->Enabled = true;
+
+			btnEliminar->Enabled = true;
+		}
+
+		void LimpiarCampos()
+		{
+			idProductoSeleccionado = 0;
+
+			txtNombre->Clear();
+			txtPrecio->Clear();
+			txtStock->Clear();
+			txtDescuento->Clear();
+
+			dgvProductos->ClearSelection();
+
+			txtNombre->Focus();
+		}
+
+		void CargarProductos()
+		{
+			dgvProductos->Rows->Clear();
+
+			ProductoDAO^ dao =
+				gcnew ProductoDAO();
+
+			List<Producto^>^ productos =
+				dao->ObtenerTodos();
+
+			for each(Producto ^ producto in productos)
+			{
+				dgvProductos->Rows->Add(
+					producto->GetIdProducto(),
+					producto->GetNombre(),
+					producto->GetPrecioUnitario(),
+					producto->GetStock(),
+					producto->GetDescuento()
+				);
+			}
+		}
 		void InitializeComponent(void)
 		{
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -94,8 +151,8 @@ namespace SistemaUsuarios {
 			this->btnAgregar = (gcnew System::Windows::Forms::Button());
 			this->btnEliminar = (gcnew System::Windows::Forms::Button());
 			this->btnModificar = (gcnew System::Windows::Forms::Button());
-			this->btnCargarProductos = (gcnew System::Windows::Forms::Button());
 			this->lblProductos = (gcnew System::Windows::Forms::Label());
+			this->btnNuevoProducto = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProductos))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -133,6 +190,7 @@ namespace SistemaUsuarios {
 			this->dgvProductos->ReadOnly = true;
 			this->dgvProductos->Size = System::Drawing::Size(543, 150);
 			this->dgvProductos->TabIndex = 3;
+			this->dgvProductos->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &FormAdmin::dgvProductos_CellClick);
 			this->dgvProductos->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &FormAdmin::dgvProductos_CellContentClick);
 			// 
 			// colId
@@ -235,7 +293,7 @@ namespace SistemaUsuarios {
 			this->btnAgregar->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->btnAgregar->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->btnAgregar->Location = System::Drawing::Point(612, 204);
+			this->btnAgregar->Location = System::Drawing::Point(667, 233);
 			this->btnAgregar->Name = L"btnAgregar";
 			this->btnAgregar->Size = System::Drawing::Size(75, 23);
 			this->btnAgregar->TabIndex = 12;
@@ -247,7 +305,7 @@ namespace SistemaUsuarios {
 			// 
 			this->btnEliminar->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
-			this->btnEliminar->Location = System::Drawing::Point(714, 204);
+			this->btnEliminar->Location = System::Drawing::Point(716, 204);
 			this->btnEliminar->Name = L"btnEliminar";
 			this->btnEliminar->Size = System::Drawing::Size(75, 23);
 			this->btnEliminar->TabIndex = 13;
@@ -258,23 +316,13 @@ namespace SistemaUsuarios {
 			// btnModificar
 			// 
 			this->btnModificar->BackColor = System::Drawing::Color::CornflowerBlue;
-			this->btnModificar->Location = System::Drawing::Point(660, 233);
+			this->btnModificar->Location = System::Drawing::Point(612, 204);
 			this->btnModificar->Name = L"btnModificar";
 			this->btnModificar->Size = System::Drawing::Size(75, 23);
 			this->btnModificar->TabIndex = 14;
 			this->btnModificar->Text = L"Modificar";
 			this->btnModificar->UseVisualStyleBackColor = false;
 			this->btnModificar->Click += gcnew System::EventHandler(this, &FormAdmin::btnModificar_Click);
-			// 
-			// btnCargarProductos
-			// 
-			this->btnCargarProductos->Location = System::Drawing::Point(483, 4);
-			this->btnCargarProductos->Name = L"btnCargarProductos";
-			this->btnCargarProductos->Size = System::Drawing::Size(75, 23);
-			this->btnCargarProductos->TabIndex = 15;
-			this->btnCargarProductos->Text = L"Cargar productos";
-			this->btnCargarProductos->UseVisualStyleBackColor = true;
-			this->btnCargarProductos->Click += gcnew System::EventHandler(this, &FormAdmin::btnCargarProductos_Click);
 			// 
 			// lblProductos
 			// 
@@ -286,14 +334,24 @@ namespace SistemaUsuarios {
 			this->lblProductos->TabIndex = 16;
 			this->lblProductos->Text = L"Productos";
 			// 
+			// btnNuevoProducto
+			// 
+			this->btnNuevoProducto->Location = System::Drawing::Point(471, 5);
+			this->btnNuevoProducto->Name = L"btnNuevoProducto";
+			this->btnNuevoProducto->Size = System::Drawing::Size(98, 23);
+			this->btnNuevoProducto->TabIndex = 17;
+			this->btnNuevoProducto->Text = L"Nuevo";
+			this->btnNuevoProducto->UseVisualStyleBackColor = true;
+			this->btnNuevoProducto->Click += gcnew System::EventHandler(this, &FormAdmin::btnNuevoProducto_Click);
+			// 
 			// FormAdmin
 			// 
 			this->AccessibleRole = System::Windows::Forms::AccessibleRole::SplitButton;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(827, 261);
+			this->Controls->Add(this->btnNuevoProducto);
 			this->Controls->Add(this->lblProductos);
-			this->Controls->Add(this->btnCargarProductos);
 			this->Controls->Add(this->btnModificar);
 			this->Controls->Add(this->btnEliminar);
 			this->Controls->Add(this->btnAgregar);
@@ -331,55 +389,15 @@ namespace SistemaUsuarios {
 	System::Object^ sender,
 	System::Windows::Forms::DataGridViewCellEventArgs^ e)
 {
-	if (e->RowIndex >= 0)
-	{
-		DataGridViewRow^ fila =
-			dgvProductos->Rows[e->RowIndex];
-
-		idProductoSeleccionado =
-			Convert::ToInt32(
-				fila->Cells[0]->Value);
-
-		txtNombre->Text =
-			fila->Cells[1]->Value->ToString();
-
-		txtPrecio->Text =
-			fila->Cells[2]->Value->ToString();
-
-		txtStock->Text =
-			fila->Cells[3]->Value->ToString();
-
-		txtDescuento->Text =
-			fila->Cells[4]->Value->ToString();
-	}
+	
 }
 private: System::Void txtStock_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void FormAdmin_Load(System::Object^ sender, System::EventArgs^ e) {
+	CargarProductos();
+	ModoAgregar();
 }
-private: System::Void btnCargarProductos_Click(
-	System::Object^ sender,
-	System::EventArgs^ e)
-{
-	dgvProductos->Rows->Clear();
 
-	ProductoDAO^ dao =
-		gcnew ProductoDAO();
-
-	List<Producto^>^ productos =
-		dao->ObtenerTodos();
-
-	for each (Producto ^ producto in productos)
-	{
-		dgvProductos->Rows->Add(
-			producto->GetIdProducto(),
-			producto->GetNombre(),
-			producto->GetPrecioUnitario(),
-			producto->GetStock(),
-			producto->GetDescuento()
-		);
-	}
-}
 
 
 	   bool ValidarProducto()
@@ -499,9 +517,11 @@ private: System::Void btnAgregar_Click(
 	MessageBox::Show(
 		"Producto agregado correctamente");
 
-	btnCargarProductos_Click(
-		sender,
-		e);
+	CargarProductos();
+
+	LimpiarCampos();
+
+	ModoAgregar();
 }
 private: System::Void btnModificar_Click(
 	System::Object^ sender,
@@ -515,6 +535,10 @@ private: System::Void btnModificar_Click(
 		return;
 	}
 
+	if (!ValidarProducto())
+	{
+		return;
+	}
 	Producto^ producto =
 		gcnew Producto(
 			idProductoSeleccionado,
@@ -535,9 +559,12 @@ private: System::Void btnModificar_Click(
 	MessageBox::Show(
 		"Producto modificado");
 
-	btnCargarProductos_Click(
-		sender,
-		e);
+	CargarProductos();
+
+	LimpiarCampos();
+
+	ModoAgregar();
+
 }
 private: System::Void btnEliminar_Click(
 	System::Object^ sender,
@@ -569,12 +596,41 @@ private: System::Void btnEliminar_Click(
 		MessageBox::Show(
 			"Producto eliminado");
 
-		btnCargarProductos_Click(
-			sender,
-			e);
+		CargarProductos();
 
-		idProductoSeleccionado = 0;
+		LimpiarCampos();
+
+		ModoAgregar();
 	}
+}
+private: System::Void dgvProductos_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+	if (e->RowIndex >= 0)
+	{
+		DataGridViewRow^ fila =
+			dgvProductos->Rows[e->RowIndex];
+
+		idProductoSeleccionado =
+			Convert::ToInt32(
+				fila->Cells[0]->Value);
+
+		txtNombre->Text =
+			fila->Cells[1]->Value->ToString();
+
+		txtPrecio->Text =
+			fila->Cells[2]->Value->ToString();
+
+		txtStock->Text =
+			fila->Cells[3]->Value->ToString();
+
+		txtDescuento->Text =
+			fila->Cells[4]->Value->ToString();
+		ModoEditar();
+	}
+}
+private: System::Void btnNuevoProducto_Click(System::Object^ sender, System::EventArgs^ e) {
+	LimpiarCampos();
+
+	ModoAgregar();
 }
 };
 }

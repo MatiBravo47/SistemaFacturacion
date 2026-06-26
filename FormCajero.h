@@ -21,9 +21,6 @@ namespace SistemaUsuarios {
 		FormCajero(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: agregar código de constructor aquí
-			//
 		}
 	private:
 
@@ -78,15 +75,6 @@ namespace SistemaUsuarios {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colDetalleSubtotal;
 	private: System::Windows::Forms::Label^ lblProducto;
 	private: System::Windows::Forms::Label^ lblProductosSeleccionados;
-
-
-
-
-
-
-
-
-
 
 		   String^ nombreSeleccionado = "";
 
@@ -423,7 +411,6 @@ private: System::Void btnConfirmarVenta_Click(
 
 		return;
 	}
-
 	try
 	{
 		double total = 0;

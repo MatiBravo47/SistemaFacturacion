@@ -188,6 +188,7 @@ namespace SistemaUsuarios {
 			this->dgvProductos->Location = System::Drawing::Point(15, 33);
 			this->dgvProductos->Name = L"dgvProductos";
 			this->dgvProductos->ReadOnly = true;
+			this->dgvProductos->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->dgvProductos->Size = System::Drawing::Size(543, 150);
 			this->dgvProductos->TabIndex = 3;
 			this->dgvProductos->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &FormAdmin::dgvProductos_CellClick);

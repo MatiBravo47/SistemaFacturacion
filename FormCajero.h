@@ -65,9 +65,26 @@ namespace SistemaUsuarios {
 				total.ToString("F2");
 		}
 
+		bool ProductoYaAgregado(int idProducto)
+		{
+			for each (DataGridViewRow ^ fila in dgvDetalleVenta->Rows)
+			{
+				if (fila->Cells[0]->Value == nullptr)
+					continue;
+
+				if (Convert::ToInt32(fila->Cells[0]->Value) == idProducto)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 	private:
 		int idProductoSeleccionado = 0;
 		double precioSeleccionado = 0;
+		int stockSeleccionado = 0;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colIdProducto;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colProducto;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ colCantidad;
@@ -168,6 +185,7 @@ namespace SistemaUsuarios {
 			this->dgvProductos->Location = System::Drawing::Point(15, 40);
 			this->dgvProductos->Name = L"dgvProductos";
 			this->dgvProductos->ReadOnly = true;
+			this->dgvProductos->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->dgvProductos->Size = System::Drawing::Size(544, 150);
 			this->dgvProductos->TabIndex = 2;
 			this->dgvProductos->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &FormCajero::dgvProductos_CellClick);
@@ -368,6 +386,10 @@ private: System::Void dgvProductos_CellClick(
 		precioSeleccionado =
 			Convert::ToDouble(
 				fila->Cells[2]->Value);
+
+		stockSeleccionado =
+			Convert::ToInt32(
+				fila->Cells[3]->Value);
 	}
 }
 private: System::Void btnAgregarVenta_Click(
@@ -382,9 +404,41 @@ private: System::Void btnAgregarVenta_Click(
 		return;
 	}
 
+	if (ProductoYaAgregado(idProductoSeleccionado))
+	{
+		MessageBox::Show(
+			"Este producto ya fue agregado a la venta.");
+
+		return;
+	}
+
 	int cantidad =
 		Convert::ToInt32(
 			txtCantidad->Text);
+
+	if (cantidad <= 0)
+	{
+		MessageBox::Show(
+			"La cantidad debe ser mayor a 0.");
+
+		return;
+	}
+
+	if (stockSeleccionado == 0)
+	{
+		MessageBox::Show(
+			"Este producto no tiene stock.");
+
+		return;
+	}
+
+	if (cantidad > stockSeleccionado)
+	{
+		MessageBox::Show(
+			"No hay stock suficiente.");
+
+		return;
+	}
 
 	double subtotal =
 		cantidad * precioSeleccionado;

@@ -60,6 +60,8 @@ namespace SistemaUsuarios {
 
 	private:
 		int idProductoSeleccionado = 0;
+	private: System::Windows::Forms::Button^ btnNuevo;
+
 
 
 
@@ -135,6 +137,66 @@ namespace SistemaUsuarios {
 
 			btnEliminar->Enabled = true;
 		}
+
+		bool ValidarProducto()
+		{
+			if (txtNombre->Text->Trim() == "")
+			{
+				MessageBox::Show("Ingrese un nombre.");
+				txtNombre->Focus();
+				return false;
+			}
+
+			double precio;
+
+			if (!Double::TryParse(txtPrecio->Text, precio))
+			{
+				MessageBox::Show("Ingrese un precio válido.");
+				txtPrecio->Focus();
+				return false;
+			}
+
+			if (precio <= 0)
+			{
+				MessageBox::Show("El precio debe ser mayor a 0.");
+				txtPrecio->Focus();
+				return false;
+			}
+
+			int stock;
+
+			if (!Int32::TryParse(txtStock->Text, stock))
+			{
+				MessageBox::Show("Ingrese un stock válido.");
+				txtStock->Focus();
+				return false;
+			}
+
+			if (stock < 0)
+			{
+				MessageBox::Show("El stock no puede ser negativo.");
+				txtStock->Focus();
+				return false;
+			}
+
+			double descuento;
+
+			if (!Double::TryParse(txtDescuento->Text, descuento))
+			{
+				MessageBox::Show("Ingrese un descuento válido.");
+				txtDescuento->Focus();
+				return false;
+			}
+
+			if (descuento < 0 || descuento > 100)
+			{
+				MessageBox::Show("El descuento debe estar entre 0 y 100.");
+				txtDescuento->Focus();
+				return false;
+			}
+
+			return true;
+		}
 		void InitializeComponent(void)
 		{
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -155,12 +217,13 @@ namespace SistemaUsuarios {
 			this->btnAgregar = (gcnew System::Windows::Forms::Button());
 			this->btnEliminar = (gcnew System::Windows::Forms::Button());
 			this->btnModificar = (gcnew System::Windows::Forms::Button());
+			this->btnNuevo = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProductos))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(-3, 240);
+			this->button1->Location = System::Drawing::Point(15, 226);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(96, 23);
 			this->button1->TabIndex = 1;
@@ -220,7 +283,7 @@ namespace SistemaUsuarios {
 			// lblNombre
 			// 
 			this->lblNombre->AutoSize = true;
-			this->lblNombre->Location = System::Drawing::Point(643, 9);
+			this->lblNombre->Location = System::Drawing::Point(602, 9);
 			this->lblNombre->Name = L"lblNombre";
 			this->lblNombre->Size = System::Drawing::Size(44, 13);
 			this->lblNombre->TabIndex = 4;
@@ -229,7 +292,7 @@ namespace SistemaUsuarios {
 			// lblPrecio
 			// 
 			this->lblPrecio->AutoSize = true;
-			this->lblPrecio->Location = System::Drawing::Point(643, 64);
+			this->lblPrecio->Location = System::Drawing::Point(609, 64);
 			this->lblPrecio->Name = L"lblPrecio";
 			this->lblPrecio->Size = System::Drawing::Size(37, 13);
 			this->lblPrecio->TabIndex = 5;
@@ -238,7 +301,7 @@ namespace SistemaUsuarios {
 			// lblStock
 			// 
 			this->lblStock->AutoSize = true;
-			this->lblStock->Location = System::Drawing::Point(645, 116);
+			this->lblStock->Location = System::Drawing::Point(602, 116);
 			this->lblStock->Name = L"lblStock";
 			this->lblStock->Size = System::Drawing::Size(35, 13);
 			this->lblStock->TabIndex = 6;
@@ -248,7 +311,7 @@ namespace SistemaUsuarios {
 			// lblDescuento
 			// 
 			this->lblDescuento->AutoSize = true;
-			this->lblDescuento->Location = System::Drawing::Point(645, 162);
+			this->lblDescuento->Location = System::Drawing::Point(602, 162);
 			this->lblDescuento->Name = L"lblDescuento";
 			this->lblDescuento->Size = System::Drawing::Size(59, 13);
 			this->lblDescuento->TabIndex = 7;
@@ -256,61 +319,76 @@ namespace SistemaUsuarios {
 			// 
 			// txtNombre
 			// 
-			this->txtNombre->Location = System::Drawing::Point(646, 25);
+			this->txtNombre->Location = System::Drawing::Point(605, 25);
 			this->txtNombre->Name = L"txtNombre";
-			this->txtNombre->Size = System::Drawing::Size(100, 20);
+			this->txtNombre->Size = System::Drawing::Size(175, 20);
 			this->txtNombre->TabIndex = 8;
 			// 
 			// txtPrecio
 			// 
-			this->txtPrecio->Location = System::Drawing::Point(646, 80);
+			this->txtPrecio->Location = System::Drawing::Point(605, 80);
 			this->txtPrecio->Name = L"txtPrecio";
-			this->txtPrecio->Size = System::Drawing::Size(100, 20);
+			this->txtPrecio->Size = System::Drawing::Size(175, 20);
 			this->txtPrecio->TabIndex = 9;
 			// 
 			// txtStock
 			// 
-			this->txtStock->Location = System::Drawing::Point(646, 132);
+			this->txtStock->Location = System::Drawing::Point(605, 132);
 			this->txtStock->Name = L"txtStock";
-			this->txtStock->Size = System::Drawing::Size(100, 20);
+			this->txtStock->Size = System::Drawing::Size(175, 20);
 			this->txtStock->TabIndex = 10;
 			// 
 			// txtDescuento
 			// 
-			this->txtDescuento->Location = System::Drawing::Point(646, 178);
+			this->txtDescuento->Location = System::Drawing::Point(605, 178);
 			this->txtDescuento->Name = L"txtDescuento";
-			this->txtDescuento->Size = System::Drawing::Size(100, 20);
+			this->txtDescuento->Size = System::Drawing::Size(175, 20);
 			this->txtDescuento->TabIndex = 11;
 			// 
 			// btnAgregar
 			// 
-			this->btnAgregar->Location = System::Drawing::Point(591, 204);
+			this->btnAgregar->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)));
+			this->btnAgregar->Location = System::Drawing::Point(648, 240);
 			this->btnAgregar->Name = L"btnAgregar";
 			this->btnAgregar->Size = System::Drawing::Size(75, 23);
 			this->btnAgregar->TabIndex = 12;
 			this->btnAgregar->Text = L"Agregar";
-			this->btnAgregar->UseVisualStyleBackColor = true;
+			this->btnAgregar->UseVisualStyleBackColor = false;
 			this->btnAgregar->Click += gcnew System::EventHandler(this, &FormDeposito::btnAgregar_Click);
 			// 
 			// btnEliminar
 			// 
+			this->btnEliminar->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->btnEliminar->Location = System::Drawing::Point(705, 204);
 			this->btnEliminar->Name = L"btnEliminar";
 			this->btnEliminar->Size = System::Drawing::Size(75, 23);
 			this->btnEliminar->TabIndex = 13;
 			this->btnEliminar->Text = L"Eliminar";
-			this->btnEliminar->UseVisualStyleBackColor = true;
+			this->btnEliminar->UseVisualStyleBackColor = false;
 			this->btnEliminar->Click += gcnew System::EventHandler(this, &FormDeposito::btnEliminar_Click);
 			// 
 			// btnModificar
 			// 
-			this->btnModificar->Location = System::Drawing::Point(648, 233);
+			this->btnModificar->BackColor = System::Drawing::Color::CornflowerBlue;
+			this->btnModificar->Location = System::Drawing::Point(605, 204);
 			this->btnModificar->Name = L"btnModificar";
 			this->btnModificar->Size = System::Drawing::Size(75, 23);
 			this->btnModificar->TabIndex = 14;
 			this->btnModificar->Text = L"Modificar";
-			this->btnModificar->UseVisualStyleBackColor = true;
+			this->btnModificar->UseVisualStyleBackColor = false;
 			this->btnModificar->Click += gcnew System::EventHandler(this, &FormDeposito::btnModificar_Click);
+			// 
+			// btnNuevo
+			// 
+			this->btnNuevo->Location = System::Drawing::Point(483, 9);
+			this->btnNuevo->Name = L"btnNuevo";
+			this->btnNuevo->Size = System::Drawing::Size(75, 23);
+			this->btnNuevo->TabIndex = 15;
+			this->btnNuevo->Text = L"Nuevo";
+			this->btnNuevo->UseVisualStyleBackColor = true;
+			this->btnNuevo->Click += gcnew System::EventHandler(this, &FormDeposito::button2_Click_1);
 			// 
 			// FormDeposito
 			// 
@@ -318,6 +396,7 @@ namespace SistemaUsuarios {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(827, 261);
+			this->Controls->Add(this->btnNuevo);
 			this->Controls->Add(this->btnModificar);
 			this->Controls->Add(this->btnEliminar);
 			this->Controls->Add(this->btnAgregar);
@@ -367,6 +446,10 @@ private: System::Void btnAgregar_Click(
 	System::Object^ sender,
 	System::EventArgs^ e)
 {
+	if (!ValidarProducto())
+	{
+		return;
+	}
 	Producto^ producto =
 		gcnew Producto(
 			0,
@@ -403,6 +486,10 @@ private: System::Void btnModificar_Click(
 		MessageBox::Show(
 			"Seleccione un producto");
 
+		return;
+	}
+	if (!ValidarProducto())
+	{
 		return;
 	}
 
@@ -492,6 +579,11 @@ private: System::Void dgvProductos_CellClick(System::Object^ sender, System::Win
 			fila->Cells[4]->Value->ToString();
 		ModoEditar();
 	}
+}
+private: System::Void button2_Click_1(System::Object^ sender, System::EventArgs^ e) {
+	LimpiarCampos();
+
+	ModoAgregar();
 }
 };
 }

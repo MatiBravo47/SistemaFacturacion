@@ -223,24 +223,25 @@ namespace SistemaUsuarios {
 			// lblCantidad
 			// 
 			this->lblCantidad->AutoSize = true;
-			this->lblCantidad->Location = System::Drawing::Point(15, 226);
+			this->lblCantidad->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->lblCantidad->Location = System::Drawing::Point(129, 227);
 			this->lblCantidad->Name = L"lblCantidad";
-			this->lblCantidad->Size = System::Drawing::Size(49, 13);
+			this->lblCantidad->Size = System::Drawing::Size(68, 17);
 			this->lblCantidad->TabIndex = 3;
-			this->lblCantidad->Text = L"Cantidad";
+			this->lblCantidad->Text = L"Cantidad:";
 			// 
 			// txtCantidad
 			// 
-			this->txtCantidad->Location = System::Drawing::Point(98, 226);
+			this->txtCantidad->Location = System::Drawing::Point(220, 226);
 			this->txtCantidad->Name = L"txtCantidad";
 			this->txtCantidad->Size = System::Drawing::Size(100, 20);
 			this->txtCantidad->TabIndex = 4;
 			// 
 			// btnAgregarVenta
 			// 
-			this->btnAgregarVenta->Location = System::Drawing::Point(311, 222);
+			this->btnAgregarVenta->Location = System::Drawing::Point(352, 221);
 			this->btnAgregarVenta->Name = L"btnAgregarVenta";
-			this->btnAgregarVenta->Size = System::Drawing::Size(95, 23);
+			this->btnAgregarVenta->Size = System::Drawing::Size(95, 29);
 			this->btnAgregarVenta->TabIndex = 5;
 			this->btnAgregarVenta->Text = L"Agregar venta";
 			this->btnAgregarVenta->UseVisualStyleBackColor = true;
@@ -296,15 +297,16 @@ namespace SistemaUsuarios {
 			// lblTotal
 			// 
 			this->lblTotal->AutoSize = true;
-			this->lblTotal->Location = System::Drawing::Point(9, 455);
+			this->lblTotal->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->lblTotal->Location = System::Drawing::Point(185, 454);
 			this->lblTotal->Name = L"lblTotal";
-			this->lblTotal->Size = System::Drawing::Size(49, 13);
+			this->lblTotal->Size = System::Drawing::Size(64, 17);
 			this->lblTotal->TabIndex = 7;
 			this->lblTotal->Text = L"Total: $0";
 			// 
 			// btnConfirmarVenta
 			// 
-			this->btnConfirmarVenta->Location = System::Drawing::Point(12, 480);
+			this->btnConfirmarVenta->Location = System::Drawing::Point(278, 454);
 			this->btnConfirmarVenta->Name = L"btnConfirmarVenta";
 			this->btnConfirmarVenta->Size = System::Drawing::Size(100, 23);
 			this->btnConfirmarVenta->TabIndex = 8;

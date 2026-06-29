@@ -122,6 +122,7 @@
     <ClCompile Include="FormCajero.cpp" />
     <ClCompile Include="FormDeposito.cpp" />
     <ClCompile Include="FormInicio.cpp" />
+    <ClCompile Include="FormUsuarios2.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -138,7 +139,9 @@
     <ClInclude Include="FormDeposito.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="FormUsuarios.h" />
+    <ClInclude Include="FormUsuarios2.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -156,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDeposito.resx">
       <DependentUpon>FormDeposito.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUsuarios2.resx">
+      <DependentUpon>FormUsuarios2.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>

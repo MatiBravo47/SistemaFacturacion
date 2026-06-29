@@ -1,5 +1,4 @@
 #pragma once
-#include "FormUsuarios.h"
 #include "ProductoDAO.h"
 
 namespace SistemaUsuarios {
@@ -61,6 +60,7 @@ namespace SistemaUsuarios {
 	private:
 		int idProductoSeleccionado = 0;
 	private: System::Windows::Forms::Button^ btnNuevo;
+	private: System::Windows::Forms::Label^ lblProductos;
 
 
 
@@ -218,6 +218,7 @@ namespace SistemaUsuarios {
 			this->btnEliminar = (gcnew System::Windows::Forms::Button());
 			this->btnModificar = (gcnew System::Windows::Forms::Button());
 			this->btnNuevo = (gcnew System::Windows::Forms::Button());
+			this->lblProductos = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProductos))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -297,6 +298,7 @@ namespace SistemaUsuarios {
 			this->lblPrecio->Size = System::Drawing::Size(37, 13);
 			this->lblPrecio->TabIndex = 5;
 			this->lblPrecio->Text = L"Precio";
+			this->lblPrecio->Click += gcnew System::EventHandler(this, &FormDeposito::lblPrecio_Click);
 			// 
 			// lblStock
 			// 
@@ -390,12 +392,23 @@ namespace SistemaUsuarios {
 			this->btnNuevo->UseVisualStyleBackColor = true;
 			this->btnNuevo->Click += gcnew System::EventHandler(this, &FormDeposito::button2_Click_1);
 			// 
+			// lblProductos
+			// 
+			this->lblProductos->AutoSize = true;
+			this->lblProductos->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
+			this->lblProductos->Location = System::Drawing::Point(15, 9);
+			this->lblProductos->Name = L"lblProductos";
+			this->lblProductos->Size = System::Drawing::Size(81, 20);
+			this->lblProductos->TabIndex = 16;
+			this->lblProductos->Text = L"Productos";
+			// 
 			// FormDeposito
 			// 
 			this->AccessibleRole = System::Windows::Forms::AccessibleRole::SplitButton;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(827, 261);
+			this->Controls->Add(this->lblProductos);
 			this->Controls->Add(this->btnNuevo);
 			this->Controls->Add(this->btnModificar);
 			this->Controls->Add(this->btnEliminar);
@@ -424,10 +437,6 @@ namespace SistemaUsuarios {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Close();
-	}
-	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-		FormUsuarios^ f = gcnew FormUsuarios();
-		f->ShowDialog();
 	}
 private: System::Void dgvProductos_CellContentClick(
 	System::Object^ sender,
@@ -584,6 +593,8 @@ private: System::Void button2_Click_1(System::Object^ sender, System::EventArgs^
 	LimpiarCampos();
 
 	ModoAgregar();
+}
+private: System::Void lblPrecio_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }

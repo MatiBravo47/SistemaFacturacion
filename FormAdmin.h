@@ -1,6 +1,6 @@
 #pragma once
-#include "FormUsuarios.h"
 #include "ProductoDAO.h"
+#include "FormUsuarios2.h"
 
 
 namespace SistemaUsuarios {
@@ -383,7 +383,7 @@ namespace SistemaUsuarios {
 		this->Close();
 	}
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-		FormUsuarios^ f = gcnew FormUsuarios();
+		FormUsuarios2^ f = gcnew FormUsuarios2();
 		f->ShowDialog();
 	}
 	private: System::Void dgvProductos_CellContentClick(

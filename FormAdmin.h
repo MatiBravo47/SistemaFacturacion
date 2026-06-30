@@ -1,6 +1,7 @@
 #pragma once
 #include "ProductoDAO.h"
 #include "FormUsuarios2.h"
+#include "FormProveedores.h"
 
 
 namespace SistemaUsuarios {
@@ -36,7 +37,8 @@ namespace SistemaUsuarios {
 		}
 
 	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Button^ btnEmpleados;
+
 	private: System::Windows::Forms::DataGridView^ dgvProductos;
 	private: System::Windows::Forms::Label^ lblNombre;
 	private: System::Windows::Forms::Label^ lblPrecio;
@@ -60,6 +62,7 @@ namespace SistemaUsuarios {
 		int idProductoSeleccionado = 0;
 	private: System::Windows::Forms::Label^ lblProductos;
 	private: System::Windows::Forms::Button^ btnNuevoProducto;
+	private: System::Windows::Forms::Button^ btnProveedor;
 
 	protected:
 
@@ -133,7 +136,7 @@ namespace SistemaUsuarios {
 		void InitializeComponent(void)
 		{
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->btnEmpleados = (gcnew System::Windows::Forms::Button());
 			this->dgvProductos = (gcnew System::Windows::Forms::DataGridView());
 			this->colId = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->colNombre = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -153,6 +156,7 @@ namespace SistemaUsuarios {
 			this->btnModificar = (gcnew System::Windows::Forms::Button());
 			this->lblProductos = (gcnew System::Windows::Forms::Label());
 			this->btnNuevoProducto = (gcnew System::Windows::Forms::Button());
+			this->btnProveedor = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProductos))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -166,15 +170,15 @@ namespace SistemaUsuarios {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &FormAdmin::button1_Click);
 			// 
-			// button2
+			// btnEmpleados
 			// 
-			this->button2->Location = System::Drawing::Point(15, 204);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(98, 23);
-			this->button2->TabIndex = 2;
-			this->button2->Text = L"Agregar usuarios";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &FormAdmin::button2_Click);
+			this->btnEmpleados->Location = System::Drawing::Point(16, 17);
+			this->btnEmpleados->Name = L"btnEmpleados";
+			this->btnEmpleados->Size = System::Drawing::Size(98, 23);
+			this->btnEmpleados->TabIndex = 2;
+			this->btnEmpleados->Text = L"Empleados";
+			this->btnEmpleados->UseVisualStyleBackColor = true;
+			this->btnEmpleados->Click += gcnew System::EventHandler(this, &FormAdmin::button2_Click);
 			// 
 			// dgvProductos
 			// 
@@ -185,7 +189,7 @@ namespace SistemaUsuarios {
 				this->colId, this->colNombre,
 					this->colPrecio, this->colStock, this->colDescuento
 			});
-			this->dgvProductos->Location = System::Drawing::Point(15, 33);
+			this->dgvProductos->Location = System::Drawing::Point(15, 77);
 			this->dgvProductos->Name = L"dgvProductos";
 			this->dgvProductos->ReadOnly = true;
 			this->dgvProductos->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
@@ -329,7 +333,7 @@ namespace SistemaUsuarios {
 			// 
 			this->lblProductos->AutoSize = true;
 			this->lblProductos->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->lblProductos->Location = System::Drawing::Point(15, 5);
+			this->lblProductos->Location = System::Drawing::Point(12, 54);
 			this->lblProductos->Name = L"lblProductos";
 			this->lblProductos->Size = System::Drawing::Size(81, 20);
 			this->lblProductos->TabIndex = 16;
@@ -337,7 +341,7 @@ namespace SistemaUsuarios {
 			// 
 			// btnNuevoProducto
 			// 
-			this->btnNuevoProducto->Location = System::Drawing::Point(471, 5);
+			this->btnNuevoProducto->Location = System::Drawing::Point(460, 17);
 			this->btnNuevoProducto->Name = L"btnNuevoProducto";
 			this->btnNuevoProducto->Size = System::Drawing::Size(98, 23);
 			this->btnNuevoProducto->TabIndex = 17;
@@ -345,12 +349,23 @@ namespace SistemaUsuarios {
 			this->btnNuevoProducto->UseVisualStyleBackColor = true;
 			this->btnNuevoProducto->Click += gcnew System::EventHandler(this, &FormAdmin::btnNuevoProducto_Click);
 			// 
+			// btnProveedor
+			// 
+			this->btnProveedor->Location = System::Drawing::Point(147, 17);
+			this->btnProveedor->Name = L"btnProveedor";
+			this->btnProveedor->Size = System::Drawing::Size(75, 23);
+			this->btnProveedor->TabIndex = 18;
+			this->btnProveedor->Text = L"Proveedores";
+			this->btnProveedor->UseVisualStyleBackColor = true;
+			this->btnProveedor->Click += gcnew System::EventHandler(this, &FormAdmin::btnProveedor_Click);
+			// 
 			// FormAdmin
 			// 
 			this->AccessibleRole = System::Windows::Forms::AccessibleRole::SplitButton;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(827, 261);
+			this->Controls->Add(this->btnProveedor);
 			this->Controls->Add(this->btnNuevoProducto);
 			this->Controls->Add(this->lblProductos);
 			this->Controls->Add(this->btnModificar);
@@ -365,7 +380,7 @@ namespace SistemaUsuarios {
 			this->Controls->Add(this->lblPrecio);
 			this->Controls->Add(this->lblNombre);
 			this->Controls->Add(this->dgvProductos);
-			this->Controls->Add(this->button2);
+			this->Controls->Add(this->btnEmpleados);
 			this->Controls->Add(this->button1);
 			this->Name = L"FormAdmin";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
@@ -632,6 +647,12 @@ private: System::Void btnNuevoProducto_Click(System::Object^ sender, System::Eve
 	LimpiarCampos();
 
 	ModoAgregar();
+}
+private: System::Void btnProveedor_Click(System::Object^ sender, System::EventArgs^ e) {
+	FormProveedores^ proveedores =
+		gcnew FormProveedores();
+
+	proveedores->ShowDialog();
 }
 };
 }

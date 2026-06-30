@@ -225,7 +225,6 @@ namespace SistemaUsuarios {
 			// 
 			this->dgvUsuarios->AllowUserToAddRows = false;
 			this->dgvUsuarios->AllowUserToDeleteRows = false;
-			this->dgvUsuarios->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->dgvUsuarios->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dgvUsuarios->Location = System::Drawing::Point(12, 45);
 			this->dgvUsuarios->MultiSelect = false;
@@ -360,9 +359,10 @@ namespace SistemaUsuarios {
 			this->lblAdministracionUsuarios->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
 			this->lblAdministracionUsuarios->Location = System::Drawing::Point(12, 19);
 			this->lblAdministracionUsuarios->Name = L"lblAdministracionUsuarios";
-			this->lblAdministracionUsuarios->Size = System::Drawing::Size(177, 20);
+			this->lblAdministracionUsuarios->Size = System::Drawing::Size(195, 20);
 			this->lblAdministracionUsuarios->TabIndex = 17;
-			this->lblAdministracionUsuarios->Text = L"Administracion usuarios";
+			this->lblAdministracionUsuarios->Text = L"Administracion empleados";
+			this->lblAdministracionUsuarios->Click += gcnew System::EventHandler(this, &FormUsuarios2::lblAdministracionUsuarios_Click);
 			// 
 			// FormUsuarios2
 			// 
@@ -578,6 +578,8 @@ private: System::Void btnVolver_Click(System::Object^ sender, System::EventArgs^
 	this->Close();
 }
 private: System::Void FormUsuarios2_Load(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void lblAdministracionUsuarios_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }

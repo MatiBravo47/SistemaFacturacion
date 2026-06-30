@@ -122,6 +122,7 @@
     <ClCompile Include="FormCajero.cpp" />
     <ClCompile Include="FormDeposito.cpp" />
     <ClCompile Include="FormInicio.cpp" />
+    <ClCompile Include="FormProveedores.cpp" />
     <ClCompile Include="FormUsuarios2.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="main.cpp" />
@@ -139,6 +140,9 @@
     <ClInclude Include="FormDeposito.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="FormProveedores.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="FormUsuarios2.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -147,6 +151,8 @@
     </ClInclude>
     <ClInclude Include="Producto.h" />
     <ClInclude Include="ProductoDao.h" />
+    <ClInclude Include="Proveedor.h" />
+    <ClInclude Include="ProveedorDAO.h" />
     <ClInclude Include="Usuario.h" />
     <ClInclude Include="UsuarioDAO.h" />
   </ItemGroup>
@@ -159,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDeposito.resx">
       <DependentUpon>FormDeposito.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProveedores.resx">
+      <DependentUpon>FormProveedores.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUsuarios2.resx">
       <DependentUpon>FormUsuarios2.h</DependentUpon>
